@@ -1,0 +1,28 @@
+{
+	"/kinect":{
+                "tilt": "rotation_y(0.698132)",
+		"waist": "rotation_z(pi/2)*rotation_y(pi/2)",
+                "torso": "rotation_z(pi/2)*rotation_y(pi/2)",
+                "neck": "rotation_z(pi/2)*rotation_y(pi/2)",
+                "head": "rotation_z(pi/2)*rotation_y(pi/2)",
+                "right_shoulder": "rotation_x(-pi/2)",
+                "right_elbow": "rotation_x(-pi/2)",
+                "right_wrist": "rotation_x(-pi/2)",
+                "right_hand": "rotation_x(-pi/2)",
+                "right_hip": "rotation_x(pi)*rotation_z(pi/2)",
+                "right_knee": "rotation_y(pi/2)*rotation_z(-pi/2)",
+                "right_ankle": "rotation_z(pi/2)*rotation_y(pi/2)",
+                "right_foot": "rotation_z(pi/2)*rotation_y(pi/2)",
+                "left_shoulder": "rotation_x(-pi/2)*rotation_z(pi)",
+                "left_elbow": "rotation_x(-pi/2)*rotation_z(pi)",
+                "left_wrist": "rotation_x(-pi/2)*rotation_z(pi)",
+                "left_hand": "rotation_x(-pi/2)*rotation_z(pi)",
+                "left_hip": "rotation_x(pi)*rotation_z(pi/2)",
+                "left_knee": "rotation_y(pi/2)*rotation_z(-pi/2)",
+                "left_ankle": "rotation_z(pi/2)*rotation_y(pi/2)",
+                "left_foot": "rotation_z(pi/2)*rotation_y(pi/2)"
+        	},
+        "/optitrack":{
+        	"right_elbow": "rotation_y(pi/2)*rotation_z(pi)"
+        }
+}

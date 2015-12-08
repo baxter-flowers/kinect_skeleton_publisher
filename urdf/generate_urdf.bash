@@ -1,0 +1,2 @@
+#!/bin/bash
+rosrun xacro xacro.py human_skeleton.urdf.xacro upper_arm_length:=0.25 forearm_length:=0.2 hand_length:=0.1 head_radius:=0.1 torso_length:=0.6 torso_radius:=0.15 waist_radius:=0.12 waist_length:=0.2 neck_length:=0.1 thigh_length:=0.4 shin_length:=0.35 foot_length:=0.1 shoulder_offset_width:=0.15 shoulder_offset_height:=0.3 hip_offset_width:=0.1 hip_offset_height:=-0.05 >human_skeleton.urdf

@@ -1,0 +1,4 @@
+- /kinect_frame
+- /optitrack/human/right_elbow
+- /toolbox/side_right
+- /robot/calibrator
