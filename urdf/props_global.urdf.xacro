@@ -3,7 +3,7 @@
        
   <xacro:property name="PI" value="3.14159265359" />
   <xacro:property name="PI_DIV_2" value="1.5707963267948966" />
-  <xacro:property name="3PI_DIV_4" value="2.35619449019" />
+  <xacro:property name="TPI_DIV_4" value="2.35619449019" />
   <xacro:property name="insignificant_mass" value="0.0001" />
   <xacro:property name="insig_inert_xx" value="0.00000001" />
   <xacro:property name="insig_inert_yy" value="0.00000001" />
