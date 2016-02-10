@@ -39,6 +39,8 @@
       </visual>
     </link>
 
+    <link name="${side}_foot_tip"/>
+
     <!-- Joints -->
 
     <joint name="${side}_hip_leg_mount" type="fixed">
@@ -80,7 +82,7 @@
       <axis xyz="0 0 1" />
       <parent link="${side}_thigh" />
       <child link="${side}_shin" />
-      <limit lower="${-PI}" upper="0" effort="${max_effort}" velocity="${max_velocity}"  />
+      <limit lower="${-PI}" upper="0.1" effort="${max_effort}" velocity="${max_velocity}"  />
     </joint>
 
     <!-- ankle : spherical -->
@@ -100,6 +102,12 @@
           <limit lower="${-PI_DIV_2}" upper="${PI_DIV_2}" effort="${max_effort}" velocity="${max_velocity}" />
         </joint>
     <!-- END ankle -->
+
+    <joint name="${side}_foot" type="fixed">
+      <origin xyz="${foot_length} 0 0" rpy="0 0 0" />
+      <parent link="${side}_foot" />
+      <child link="${side}_foot_tip" />
+    </joint>
 
 </xacro:macro>
 </robot>

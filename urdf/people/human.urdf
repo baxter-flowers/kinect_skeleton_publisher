@@ -3,10 +3,10 @@
   <link name="hip"/>
   <link name="waist">
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0.0366308832993"/>
+      <origin rpy="0 0 0" xyz="0 0 0.0378320241104"/>
       <geometry>
         <!--<box size="0.4 0.2 ${waist_length}" />-->
-        <cylinder length="0.0732617665986" radius="0.12"/>
+        <cylinder length="0.0756640482208" radius="0.12"/>
       </geometry>
     </visual>
   </link>
@@ -14,10 +14,10 @@
   <link name="spine_1"/>
   <link name="torso">
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0.156389813322"/>
+      <origin rpy="0 0 0" xyz="0 0 0.15997299563"/>
       <geometry>
         <!--<box size="0.4 0.2 ${torso_length}" />-->
-        <cylinder length="0.312779626643" radius="0.15"/>
+        <cylinder length="0.31994599126" radius="0.15"/>
       </geometry>
     </visual>
   </link>
@@ -25,12 +25,13 @@
   <link name="neck_1"/>
   <link name="head">
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0.181319579139"/>
+      <origin rpy="0 0 0" xyz="0 0 0.182430717129"/>
       <geometry>
         <sphere radius="0.1"/>
       </geometry>
     </visual>
   </link>
+  <link name="head_tip"/>
   <joint name="hip" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <parent link="hip"/>
@@ -38,7 +39,7 @@
   </joint>
   <!-- SPINE : spherical -->
   <joint name="spine_0" type="revolute">
-    <origin rpy="0 0 0" xyz="0 0 0.0732617665986"/>
+    <origin rpy="0 0 0" xyz="0 0 0.0756640482208"/>
     <axis xyz="1 0 0"/>
     <parent link="waist"/>
     <child link="spine_0"/>
@@ -60,7 +61,7 @@
   </joint>
   <!-- NECK : spherical -->
   <joint name="neck_0" type="revolute">
-    <origin rpy="0 0 0" xyz="0 0 0.312779626643"/>
+    <origin rpy="0 0 0" xyz="0 0 0.31994599126"/>
     <axis xyz="1 0 0"/>
     <parent link="torso"/>
     <child link="neck_0"/>
@@ -81,23 +82,28 @@
     <limit effort="1" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <!-- END NECK -->
+  <joint name="head" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0.182430717129"/>
+    <parent link="head"/>
+    <child link="head_tip"/>
+  </joint>
   <link name="right_arm_mount"/>
   <link name="right_shoulder_0"/>
   <link name="right_shoulder_1"/>
   <link name="right_upper_arm">
     <visual>
-      <origin rpy="0 1.57079632679 0" xyz="0.135664918446 0 0"/>
+      <origin rpy="0 1.57079632679 0" xyz="0.121483958233 0 0"/>
       <geometry>
-        <cylinder length="0.271329836892" radius="0.05"/>
+        <cylinder length="0.242967916466" radius="0.05"/>
       </geometry>
     </visual>
   </link>
   <link name="right_elbow_0"/>
   <link name="right_forearm">
     <visual>
-      <origin rpy="0 1.57079632679 0" xyz="0.102552078899 0 0"/>
+      <origin rpy="0 1.57079632679 0" xyz="0.131689974359 0 0"/>
       <geometry>
-        <cylinder length="0.205104157797" radius="0.025"/>
+        <cylinder length="0.263379948718" radius="0.025"/>
       </geometry>
     </visual>
   </link>
@@ -110,9 +116,10 @@
       </geometry>
     </visual>
   </link>
+  <link name="right_hand_tip"/>
   <!-- Joints -->
   <joint name="right_arm_mount" type="fixed">
-    <origin rpy="0 0 -1.57079632679" xyz="0 -0.195284400097 0.210067904481"/>
+    <origin rpy="0 0 -1.57079632679" xyz="0 -0.191025299573 0.230898322182"/>
     <parent link="torso"/>
     <child link="right_arm_mount"/>
   </joint>
@@ -140,11 +147,11 @@
   </joint>
   <!-- END SHOULDER -->
   <joint name="left_elbow_0" type="revolute">
-    <origin rpy="0 0 0" xyz="0.271329836892 0 0"/>
+    <origin rpy="0 0 0" xyz="0.242967916466 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="left_upper_arm"/>
     <child link="left_elbow_0"/>
-    <limit effort="1" lower="-3.14159265359" upper="0.0" velocity="1"/>
+    <limit effort="1" lower="-3.14159265359" upper="0.1" velocity="1"/>
   </joint>
   <joint name="right_elbow_1" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -155,7 +162,7 @@
   </joint>
   <!-- WRIST : spherical -->
   <joint name="right_wrist_0" type="revolute">
-    <origin rpy="0 0 0" xyz="0.205104157797 0 0"/>
+    <origin rpy="0 0 0" xyz="0.263379948718 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="right_forearm"/>
     <child link="right_wrist_0"/>
@@ -169,23 +176,28 @@
     <limit effort="1" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <!-- END WRIST -->
+  <joint name="right_hand" type="fixed">
+    <origin rpy="0 0 0" xyz="0.1 0 0"/>
+    <parent link="right_hand"/>
+    <child link="right_hand_tip"/>
+  </joint>
   <link name="left_arm_mount"/>
   <link name="left_shoulder_0"/>
   <link name="left_shoulder_1"/>
   <link name="left_upper_arm">
     <visual>
-      <origin rpy="0 1.57079632679 0" xyz="0.135664918446 0 0"/>
+      <origin rpy="0 1.57079632679 0" xyz="0.121483958233 0 0"/>
       <geometry>
-        <cylinder length="0.271329836892" radius="0.05"/>
+        <cylinder length="0.242967916466" radius="0.05"/>
       </geometry>
     </visual>
   </link>
   <link name="left_elbow_0"/>
   <link name="left_forearm">
     <visual>
-      <origin rpy="0 1.57079632679 0" xyz="0.102552078899 0 0"/>
+      <origin rpy="0 1.57079632679 0" xyz="0.131689974359 0 0"/>
       <geometry>
-        <cylinder length="0.205104157797" radius="0.025"/>
+        <cylinder length="0.263379948718" radius="0.025"/>
       </geometry>
     </visual>
   </link>
@@ -198,9 +210,10 @@
       </geometry>
     </visual>
   </link>
+  <link name="left_hand_tip"/>
   <!-- Joints -->
   <joint name="left_arm_mount" type="fixed">
-    <origin rpy="0 0 1.57079632679" xyz="0 0.195284400097 0.210067904481"/>
+    <origin rpy="0 0 1.57079632679" xyz="0 0.191025299573 0.230898322182"/>
     <parent link="torso"/>
     <child link="left_arm_mount"/>
   </joint>
@@ -228,11 +241,11 @@
   </joint>
   <!-- END SHOULDER -->
   <joint name="right_elbow_0" type="revolute">
-    <origin rpy="0 0 0" xyz="0.271329836892 0 0"/>
+    <origin rpy="0 0 0" xyz="0.242967916466 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="right_upper_arm"/>
     <child link="right_elbow_0"/>
-    <limit effort="1" lower="0.0" upper="3.14159265359" velocity="1"/>
+    <limit effort="1" lower="-0.1" upper="3.14159265359" velocity="1"/>
   </joint>
   <joint name="left_elbow_1" type="revolute">
     <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -243,7 +256,7 @@
   </joint>
   <!-- WRIST : spherical -->
   <joint name="left_wrist_0" type="revolute">
-    <origin rpy="0 0 0" xyz="0.205104157797 0 0"/>
+    <origin rpy="0 0 0" xyz="0.263379948718 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="left_forearm"/>
     <child link="left_wrist_0"/>
@@ -257,22 +270,27 @@
     <limit effort="1" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <!-- END WRIST -->
+  <joint name="left_hand" type="fixed">
+    <origin rpy="0 0 0" xyz="0.1 0 0"/>
+    <parent link="left_hand"/>
+    <child link="left_hand_tip"/>
+  </joint>
   <link name="right_leg_mount"/>
   <link name="right_hip_0"/>
   <link name="right_hip_1"/>
   <link name="right_thigh">
     <visual>
-      <origin rpy="0 1.57079632679 0" xyz="0.25378011465 0 0"/>
+      <origin rpy="0 1.57079632679 0" xyz="0.221974217087 0 0"/>
       <geometry>
-        <cylinder length="0.507560229301" radius="0.05"/>
+        <cylinder length="0.443948434173" radius="0.05"/>
       </geometry>
     </visual>
   </link>
   <link name="right_shin">
     <visual>
-      <origin rpy="0 1.57079632679 0" xyz="0.235081233463 0 0"/>
+      <origin rpy="0 1.57079632679 0" xyz="0.156672886489 0 0"/>
       <geometry>
-        <cylinder length="0.470162466925" radius="0.025"/>
+        <cylinder length="0.313345772978" radius="0.025"/>
       </geometry>
     </visual>
   </link>
@@ -285,9 +303,10 @@
       </geometry>
     </visual>
   </link>
+  <link name="right_foot_tip"/>
   <!-- Joints -->
   <joint name="right_hip_leg_mount" type="fixed">
-    <origin rpy="0 1.57079632679 0" xyz="0 -0.0661475518415 -0.0946929458205"/>
+    <origin rpy="0 1.57079632679 0" xyz="0 -0.0764992904338 -0.0838923317292"/>
     <parent link="hip"/>
     <child link="right_leg_mount"/>
   </joint>
@@ -315,7 +334,7 @@
   </joint>
   <!-- END hip -->
   <joint name="right_knee" type="revolute">
-    <origin rpy="1.57079632679 0 0" xyz="0.507560229301 0 0"/>
+    <origin rpy="1.57079632679 0 0" xyz="0.443948434173 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="right_thigh"/>
     <child link="right_shin"/>
@@ -323,7 +342,7 @@
   </joint>
   <!-- ankle : spherical -->
   <joint name="right_ankle_0" type="revolute">
-    <origin rpy="-1.57079632679 0 1.57079632679" xyz="0.470162466925 0 0"/>
+    <origin rpy="-1.57079632679 0 1.57079632679" xyz="0.313345772978 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="right_shin"/>
     <child link="right_ankle"/>
@@ -337,22 +356,27 @@
     <limit effort="1" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <!-- END ankle -->
+  <joint name="right_foot" type="fixed">
+    <origin rpy="0 0 0" xyz="0.1 0 0"/>
+    <parent link="right_foot"/>
+    <child link="right_foot_tip"/>
+  </joint>
   <link name="left_leg_mount"/>
   <link name="left_hip_0"/>
   <link name="left_hip_1"/>
   <link name="left_thigh">
     <visual>
-      <origin rpy="0 1.57079632679 0" xyz="0.25378011465 0 0"/>
+      <origin rpy="0 1.57079632679 0" xyz="0.221974217087 0 0"/>
       <geometry>
-        <cylinder length="0.507560229301" radius="0.05"/>
+        <cylinder length="0.443948434173" radius="0.05"/>
       </geometry>
     </visual>
   </link>
   <link name="left_shin">
     <visual>
-      <origin rpy="0 1.57079632679 0" xyz="0.235081233463 0 0"/>
+      <origin rpy="0 1.57079632679 0" xyz="0.156672886489 0 0"/>
       <geometry>
-        <cylinder length="0.470162466925" radius="0.025"/>
+        <cylinder length="0.313345772978" radius="0.025"/>
       </geometry>
     </visual>
   </link>
@@ -365,9 +389,10 @@
       </geometry>
     </visual>
   </link>
+  <link name="left_foot_tip"/>
   <!-- Joints -->
   <joint name="left_hip_leg_mount" type="fixed">
-    <origin rpy="0 1.57079632679 0" xyz="0 0.0661475518415 -0.0946929458205"/>
+    <origin rpy="0 1.57079632679 0" xyz="0 0.0764992904338 -0.0838923317292"/>
     <parent link="hip"/>
     <child link="left_leg_mount"/>
   </joint>
@@ -395,7 +420,7 @@
   </joint>
   <!-- END hip -->
   <joint name="left_knee" type="revolute">
-    <origin rpy="1.57079632679 0 0" xyz="0.507560229301 0 0"/>
+    <origin rpy="1.57079632679 0 0" xyz="0.443948434173 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="left_thigh"/>
     <child link="left_shin"/>
@@ -403,7 +428,7 @@
   </joint>
   <!-- ankle : spherical -->
   <joint name="left_ankle_0" type="revolute">
-    <origin rpy="-1.57079632679 0 1.57079632679" xyz="0.470162466925 0 0"/>
+    <origin rpy="-1.57079632679 0 1.57079632679" xyz="0.313345772978 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="left_shin"/>
     <child link="left_ankle"/>
@@ -417,4 +442,9 @@
     <limit effort="1" lower="-1.57079632679" upper="1.57079632679" velocity="1"/>
   </joint>
   <!-- END ankle -->
+  <joint name="left_foot" type="fixed">
+    <origin rpy="0 0 0" xyz="0.1 0 0"/>
+    <parent link="left_foot"/>
+    <child link="left_foot_tip"/>
+  </joint>
 </robot>

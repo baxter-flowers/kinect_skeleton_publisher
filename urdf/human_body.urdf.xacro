@@ -41,6 +41,8 @@
       </visual>
     </link>
 
+    <link name="head_tip"/>
+
     <joint name="hip" type="fixed">
       <origin xyz="0 0 0" rpy="0 0 0" />
       <parent link="hip" />
@@ -97,7 +99,13 @@
           <limit lower="${-PI_DIV_2}" upper="${PI_DIV_2}" effort="${max_effort}" velocity="${max_velocity}" />
         </joint>
     <!-- END NECK -->
-   	
+
+    <joint name="head" type="fixed">
+      <origin xyz="0 0 ${neck_length}" rpy="0 0 0" />
+      <parent link="head" />
+      <child link="head_tip" />
+    </joint>
+
 </xacro:macro>
 
 </robot>
