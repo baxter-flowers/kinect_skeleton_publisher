@@ -10,6 +10,7 @@ from collections import deque
 import numpy as np
 from .joint_transformations import *
 
+
 class SkeletonConverter:
     def __init__(self, calibrated=False, window=2):
         self.rospack = rospkg.RosPack()
@@ -77,11 +78,11 @@ class SkeletonConverter:
                         'shoulder_offset_height': float(abs(self.skel_data['right_shoulder'][1,-1])),
                         'hip_offset_width': float(abs(self.skel_data['right_hip'][0,-1])),
                         'hip_offset_height': float(-abs(self.skel_data['right_hip'][1,-1])),
-                        'hand_length': 0.1,   # TODO
-                        'foot_length': 0.1,   # TODO
-                        'waist_radius': 0.12, # TODO
-                        'torso_radius': 0.15, # TODO
-                        'head_radius': 0.1 }  # TODO
+                        'hand_length': 0.1,    # TODO
+                        'foot_length': 0.1,    # TODO
+                        'waist_radius': 0.12,  # TODO
+                        'torso_radius': 0.15,  # TODO
+                        'head_radius': 0.1}    # TODO
         # set the lengths on the parameter server
         rospy.set_param('/kinect/human_lengths', self.lengths)
 
@@ -107,13 +108,13 @@ class SkeletonConverter:
             spine = self.skel_data['torso']
             neck = self.skel_data['neck']
             # get joints from hip to spine
-            self.joint_states['spine_0'].append(math.atan2(-spine[1,2],spine[2,2]))
-            self.joint_states['spine_1'].append(math.asin(spine[0,2]))
-            self.joint_states['spine_2'].append(math.atan2(-spine[0,1],spine[0,0]))
+            self.joint_states['spine_0'].append(math.atan2(-spine[1, 2], spine[2, 2]))
+            self.joint_states['spine_1'].append(math.asin(spine[0, 2]))
+            self.joint_states['spine_2'].append(math.atan2(-spine[0, 1],spine[0, 0]))
             # get joints from neck to head
-            self.joint_states['neck_0'].append(math.atan2(-neck[1,2],neck[2,2]))
-            self.joint_states['neck_1'].append(math.asin(neck[0,2]))
-            self.joint_states['neck_2'].append(math.atan2(-neck[0,1],neck[0,0]))
+            self.joint_states['neck_0'].append(math.atan2(-neck[1, 2], neck[2, 2]))
+            self.joint_states['neck_1'].append(math.asin(neck[0, 2]))
+            self.joint_states['neck_2'].append(math.atan2(-neck[0, 1], neck[0, 0]))
 
         def convert_arm(side):
             shoulder = self.skel_data[side+'_shoulder']
@@ -122,32 +123,32 @@ class SkeletonConverter:
             # sign differences between sides
             if side == 'right':
                 # get shoulder joints
-                self.joint_states[side+'_shoulder_0'].append(math.atan2(shoulder[0,0],-shoulder[1,0]))
+                self.joint_states[side+'_shoulder_0'].append(math.atan2(shoulder[0,0], -shoulder[1,0]))
             else:
                 # get shoulder joints
-                self.joint_states[side+'_shoulder_0'].append(math.atan2(-shoulder[0,0],shoulder[2,2]))
+                self.joint_states[side+'_shoulder_0'].append(math.atan2(-shoulder[0,0], shoulder[2,2]))
             self.joint_states[side+'_shoulder_1'].append(math.asin(-shoulder[2,0]))
-            self.joint_states[side+'_shoulder_2'].append(math.atan2(shoulder[2,1],shoulder[2,2]))
+            self.joint_states[side+'_shoulder_2'].append(math.atan2(shoulder[2,1], shoulder[2,2]))
             # get elbow joints
-            self.joint_states[side+'_elbow_0'].append(math.atan2(elbow[1,0],elbow[0,0]))
-            self.joint_states[side+'_elbow_1'].append(math.atan2(elbow[2,1],elbow[2,2]))
+            self.joint_states[side+'_elbow_0'].append(math.atan2(elbow[1,0], elbow[0,0]))
+            self.joint_states[side+'_elbow_1'].append(math.atan2(elbow[2,1], elbow[2,2]))
             # get wrist joints
-            self.joint_states[side+'_wrist_0'].append(math.atan2(-wrist[2,0],wrist[2,2]))
-            self.joint_states[side+'_wrist_1'].append(math.atan2(-wrist[0,1],wrist[1,1]))
+            self.joint_states[side+'_wrist_0'].append(math.atan2(-wrist[2,0], wrist[2,2]))
+            self.joint_states[side+'_wrist_1'].append(math.atan2(-wrist[0,1], wrist[1,1]))
 
         def convert_leg(side):
             hip = self.skel_data[side+'_hip']
             knee = self.skel_data[side+'_knee']
             ankle = self.skel_data[side+'_ankle']
             # get hip joints
-            self.joint_states[side+'_hip_0'].append(math.atan2(hip[1,0],-hip[2,0]))
+            self.joint_states[side+'_hip_0'].append(math.atan2(hip[1,0], -hip[2,0]))
             self.joint_states[side+'_hip_1'].append(math.asin(-hip[0,0]))
-            self.joint_states[side+'_hip_2'].append(math.atan2(hip[0,1],hip[0,2]))
+            self.joint_states[side+'_hip_2'].append(math.atan2(hip[0,1], hip[0,2]))
             # get knee joint
-            self.joint_states[side+'_knee'].append(math.atan2(-knee[0,1],knee[0,0]))
+            self.joint_states[side+'_knee'].append(math.atan2(-knee[0,1], knee[0,0]))
             # get ankle joints
-            self.joint_states[side+'_ankle_0'].append(math.atan2(ankle[2,1],-ankle[0,1]))
-            self.joint_states[side+'_ankle_1'].append(math.atan2(-ankle[1,0],ankle[1,2]))
+            self.joint_states[side+'_ankle_0'].append(math.atan2(ankle[2,1], -ankle[0,1]))
+            self.joint_states[side+'_ankle_1'].append(math.atan2(-ankle[1,0], ankle[1,2]))
 
         convert_body()
         convert_arm('right')
@@ -155,6 +156,9 @@ class SkeletonConverter:
         convert_leg('right')
         convert_leg('left')
         return self.average_joints()
+
+    def convert_to_joints_vrep(self):
+        return 0
 
     def is_skeleton_visible(self):
         visible = True
@@ -179,7 +183,7 @@ class SkeletonConverter:
                 return True
         return False
 
-    def update_skeleton(self):    
+    def update_skeleton(self):
         def update_frame(base, target, base_prefix=None, target_prefix=None):
             visible = False
             if base_prefix is None:
@@ -203,15 +207,19 @@ class SkeletonConverter:
                     break
             if not visible:
                 self.visible = False
+
         def update_body():
             update_frame('waist', 'torso')
             update_frame('torso', 'neck')
             update_frame('neck', 'head')
+
         def update_arm(side):
             update_frame('torso', side+'_shoulder')
-            update_frame(side+'_shoulder', side+'_elbow', target_prefix=['/optitrack', '/kinect'])
+            update_frame(side+'_shoulder', side+'_elbow',
+                         target_prefix=['/optitrack', '/kinect'])
             update_frame(side+'_elbow', side+'_wrist')
             update_frame(side+'_wrist', side+'_hand')
+
         def update_leg(side):
             update_frame('waist', side+'_hip')
             update_frame(side+'_hip', side+'_knee')
@@ -228,5 +236,3 @@ class SkeletonConverter:
         update_leg('right')
         update_leg('left')
         return self.visible
-
-

@@ -1,8 +1,11 @@
 #!/usr/bin/env python
-import vrpn, time, rospy, tf
+import vrpn
+import rospy
+import tf
 from kinect_skeleton_publisher.joint_transformations import *
 from sympy import pi
 from threading import Lock
+
 
 class KinectSkeletonPublisher():
     def __init__(self, ip, port, num_skeletons=1, rate=50):
@@ -26,8 +29,8 @@ class KinectSkeletonPublisher():
         for joint in self.joint_names:
             self.frames[joint] = {}
             self.frames[joint]['empty'] = True
-            self.frames[joint]['position'] = [0,0,0]
-            self.frames[joint]['quaternion'] = [0,0,0,1]
+            self.frames[joint]['position'] = [0, 0, 0]
+            self.frames[joint]['quaternion'] = [0, 0, 0, 1]
         # initalize mutex lock
         self.lock = Lock()
         # connect to VRPN
@@ -52,10 +55,9 @@ class KinectSkeletonPublisher():
         # convert it back to tf
         pose = sympy_to_numpy(pose)
         quaternion = tf.transformations.quaternion_from_matrix(pose)
-        position = pose[:-1,-1].tolist()
+        position = pose[:-1, -1].tolist()
         # send tf
         self.tfb.sendTransform(position, quaternion, rospy.Time.now(), self.tf_prefix + joint, "kinect_frame")
-
 
     def run(self):
         while not rospy.is_shutdown():
@@ -70,7 +72,7 @@ class KinectSkeletonPublisher():
             self.rate.sleep()
 
 
-if __name__=='__main__':
+if __name__ == '__main__':
     rospy.init_node('kinect_skeleton_publisher')
     ip = rospy.get_param('/kinect/vrpn_ip')
     port = rospy.get_param('/kinect/vrpn_port')
