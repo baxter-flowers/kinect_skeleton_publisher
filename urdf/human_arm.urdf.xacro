@@ -95,7 +95,15 @@
         <axis xyz="0 0 1" />
         <parent link="left_upper_arm" />
         <child link="left_elbow_0" />
-        <limit lower="${-PI}" upper="0.1" effort="${max_effort}" velocity="${max_velocity}"  />
+        <limit lower="${-PI}" upper="0.0" effort="${max_effort}" velocity="${max_velocity}"  />
+      </joint>
+
+      <joint name="left_elbow_1" type="revolute">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <axis xyz="1 0 0" />
+        <parent link="left_elbow_0" />
+        <child link="left_forearm" />
+        <limit lower="${-PI}" upper="0.0" effort="${max_effort}" velocity="${max_velocity}"  />
       </joint>
     </xacro:if>
     <xacro:unless value="${boolside}">
@@ -104,35 +112,33 @@
         <axis xyz="0 0 1" />
         <parent link="right_upper_arm" />
         <child link="right_elbow_0" />
-        <limit lower="-0.1" upper="${PI}" effort="${max_effort}" velocity="${max_velocity}"  />
+        <limit lower="0.0" upper="${PI}" effort="${max_effort}" velocity="${max_velocity}"  />
+      </joint>
+
+      <joint name="right_elbow_1" type="revolute">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <axis xyz="1 0 0" />
+        <parent link="right_elbow_0" />
+        <child link="right_forearm" />
+        <limit lower="0.0" upper="${PI}" effort="${max_effort}" velocity="${max_velocity}"  />
       </joint>
     </xacro:unless>
 
-    <joint name="${side}_elbow_1" type="revolute">
-      <origin xyz="0 0 0" rpy="0 0 0" />
-      <axis xyz="1 0 0" />
-      <parent link="${side}_elbow_0" />
-      <child link="${side}_forearm" />
-      <limit lower="${-PI}" upper="${PI}" effort="${max_effort}" velocity="${max_velocity}"  />
+    <joint name="${side}_wrist_0" type="revolute">
+      <origin xyz="${forearm_length} 0 0" rpy="0 0 0" />
+      <axis xyz="0 0 1" />
+      <parent link="${side}_forearm" />
+      <child link="${side}_wrist_0" />
+      <limit lower="${-PI_DIV_4}" upper="${PI_DIV_4}" effort="${max_effort}" velocity="${max_velocity}"  />
     </joint>
 
-    <!-- WRIST : spherical -->
-        <joint name="${side}_wrist_0" type="revolute">
-          <origin xyz="${forearm_length} 0 0" rpy="0 0 0" />
-          <axis xyz="0 0 1" />
-          <parent link="${side}_forearm" />
-          <child link="${side}_wrist_0" />
-          <limit lower="${-PI_DIV_2}" upper="${PI_DIV_2}" effort="${max_effort}" velocity="${max_velocity}"  />
-        </joint>
-
-        <joint name="${side}_wrist_1" type="revolute">
-          <origin xyz="0 0 0" rpy="0 0 0" />
-          <axis xyz="0 1 0" />
-          <parent link="${side}_wrist_0" />
-          <child link="${side}_hand" />
-          <limit lower="${-PI_DIV_2}" upper="${PI_DIV_2}" effort="${max_effort}" velocity="${max_velocity}"  />
-        </joint>
-    <!-- END WRIST -->
+    <joint name="${side}_wrist_1" type="revolute">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <axis xyz="0 1 0" />
+      <parent link="${side}_wrist_0" />
+      <child link="${side}_hand" />
+      <limit lower="${-PI_DIV_2}" upper="${PI_DIV_2}" effort="${max_effort}" velocity="${max_velocity}"  />
+    </joint>
 
     <joint name="${side}_hand" type="fixed">
       <origin xyz="${hand_length} 0 0" rpy="0 0 0" />
