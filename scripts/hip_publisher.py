@@ -4,6 +4,7 @@ from kinect_skeleton_publisher.skeleton_to_joints import SkeletonConverter
 import tf
 import sys
 
+
 class HipPublisher:
     def __init__(self, rate=10):
         self.rate = rospy.Rate(rate)
@@ -36,6 +37,6 @@ class HipPublisher:
                     rospy.sleep(1)
                 self.rate.sleep()
 
-if __name__=='__main__':
+if __name__ == '__main__':
     rospy.init_node('hip_publisher')
-    HipPublisher(10).run(sys.argv[1]=='True')
+    HipPublisher(10).run(sys.argv[1] == 'True')

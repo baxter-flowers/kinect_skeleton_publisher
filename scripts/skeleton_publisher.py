@@ -2,9 +2,8 @@
 import vrpn
 import rospy
 import tf
-from kinect_skeleton_publisher.joint_transformations import *
-from sympy import pi
 from threading import Lock
+import numpy as np
 
 
 class KinectSkeletonPublisher():
@@ -15,11 +14,9 @@ class KinectSkeletonPublisher():
         self.rate = rospy.Rate(rate)
         self.tfb = tf.TransformBroadcaster()
         self.trackers = []
-        # transformation matrix from kinect system to standardized system
-        self.system_transform = rotation_y(pi/2)*rotation_z(pi/2)
         # namespace for tf publication
         self.tf_prefix = '/kinect/human/'
-        self.joint_names = ['head', 'neck', 'torso', 'waist',
+        self.joint_names = ['head', 'neck', 'spine', 'waist',
                             'left_shoulder', 'left_elbow', 'left_wrist', 'left_hand',
                             'right_shoulder', 'right_elbow', 'right_wrist', 'right_hand',
                             'left_hip', 'left_knee', 'left_ankle', 'left_foot',
@@ -48,22 +45,37 @@ class KinectSkeletonPublisher():
             self.frames[self.joint_names[sensor]]['quaternion'] = data['quaternion']
 
     def send_tf(self, joint, pose):
-        # convert tf to transformation matrix
-        T = tf_to_matrix((pose['position'], pose['quaternion']))
-        # apply the system transformation
-        pose = self.system_transform*T
-        # convert it back to tf
-        pose = sympy_to_numpy(pose)
-        quaternion = tf.transformations.quaternion_from_matrix(pose)
-        position = pose[:-1, -1].tolist()
-        # send tf
-        self.tfb.sendTransform(position, quaternion, rospy.Time.now(), self.tf_prefix + joint, "kinect_frame")
+        pos = pose['position']
+        rot = pose['quaternion']
+        self.tfb.sendTransform(pos, rot, rospy.Time.now(), self.tf_prefix + joint, "kinect_frame")
+
+    def send_base_frame(self):
+        poseR = self.frames['right_hip']
+        poseL = self.frames['left_hip']
+        pos = ((np.array(poseR['position']) + np.array(poseL['position']))/2).tolist()
+        rot = poseR['quaternion']
+        self.tfb.sendTransform(pos, rot, rospy.Time.now(), self.tf_prefix + 'base', "kinect_frame")
+
+    def send_shoulder_center(self):
+        poseR = self.frames['right_shoulder']
+        poseL = self.frames['left_shoulder']
+        pos = ((np.array(poseR['position']) + np.array(poseL['position']))/2).tolist()
+        rot = poseR['quaternion']
+        self.tfb.sendTransform(pos, rot, rospy.Time.now(), self.tf_prefix + 'shoulder_center', "kinect_frame")
 
     def run(self):
         while not rospy.is_shutdown():
             for t in self.trackers:
                 t.mainloop()
             with self.lock:
+                # publish base frame
+                empty = (self.frames['right_hip']['empty'] or self.frames['left_hip']['empty'])
+                if not empty:
+                    self.send_base_frame()
+                # publish shoulder_center frame
+                empty = (self.frames['right_shoulder']['empty'] or self.frames['left_shoulder']['empty'])
+                if not empty:
+                    self.send_shoulder_center()
                 for joint, pose in self.frames.iteritems():
                     if not pose['empty']:
                         self.send_tf(joint, pose)
