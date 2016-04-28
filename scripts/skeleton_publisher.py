@@ -9,7 +9,7 @@ import json
 
 
 class KinectSkeletonPublisher():
-    def __init__(self, ip, port, num_skeletons=1, rate=50, use_v2=True):
+    def __init__(self, ip, port, num_skeletons=1, rate=50, use_v2=False):
         self.use_v2 = use_v2
         self.num_skeletons = num_skeletons
         self.rate = rospy.Rate(rate)
@@ -125,5 +125,5 @@ if __name__ == '__main__':
     ip = rospy.get_param('/kinect/vrpn_ip')
     port = rospy.get_param('/kinect/vrpn_port')
     num_skeletons = rospy.get_param('/kinect/num_skeletons')
-    # use_v2 = rospy.get_param('/kinect/use_v2')
-    KinectSkeletonPublisher(ip, port, int(num_skeletons), True).run()
+    use_v2 = rospy.get_param('/kinect/use_v2')
+    KinectSkeletonPublisher(ip, port, int(num_skeletons), use_v2=use_v2).run()
