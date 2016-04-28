@@ -1,20 +1,13 @@
 <launch>  
-  <arg name="ip" /> <!-- IP of the VRPN server (like Motive or Arena) -->
+  <arg name="ip" default="FLOWERS-DELL-1.local"/> <!-- IP of the VRPN server (like Motive or Arena) -->
   <arg name="port" default="3883" /> <!-- Port of the VRPN server (default 3883) -->
-  <arg name="opt_port" default="3884" /> <!-- Port of the VRPN server (default 3883) -->
   <arg name="num_skeletons" default="1" /> <!-- Number of skeletons to track -->
 
   <param name="kinect/vrpn_ip" type="string" value="$(arg ip)" />
   <param name="kinect/vrpn_port" type="string" value="$(arg port)" />
   <param name="kinect/num_skeletons" type="int" value="$(arg num_skeletons)" />
-  
-  <rosparam command="load" file="$(find kinect_skeleton_publisher)/config/tracked_objects.yaml" param="optitrack/objects"/>
+  <!-- <param name="kinect/use_v2" type="bool" value="$(arg use_v2)" /> -->
 
-  <node name="kinect_skeleton_publisher" pkg="kinect_skeleton_publisher" type="skeleton_publisher.py" output="log"/>
-  <include file="$(find optitrack_publisher)/launch/optitrack_publisher.launch" >
-      <arg name="ip" value="$(arg ip)"/> <!-- IP of the VRPN server (like Motive or Arena) -->
-      <arg name="port" value="$(arg opt_port)"/> <!-- Port of the VRPN server (default 3883) -->
-      <arg name="output" value="log"/>
-   </include>
+  <node name="kinect_skeleton_publisher" pkg="kinect_skeleton_publisher" type="skeleton_publisher.py" output="screen"/>
 
 </launch>
