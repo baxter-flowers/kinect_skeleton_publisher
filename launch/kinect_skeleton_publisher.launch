@@ -1,5 +1,6 @@
+<?xml version="1.0"?>
 <launch>  
-  <arg name="ip" default="FLOWERS-DELL-1.local"/> <!-- IP of the VRPN server (like Motive or Arena) -->
+  <arg name="ip" default="BAXTERFLOWERS.local"/> <!-- IP of the VRPN server (like Motive or Arena) -->
   <arg name="port" default="3883" /> <!-- Port of the VRPN server (default 3883) -->
   <arg name="num_skeletons" default="1" /> <!-- Number of skeletons to track -->
   <arg name="use_v2" default="False" /> <!-- Specify Kinect version -->
